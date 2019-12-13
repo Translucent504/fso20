@@ -1,2 +1,18 @@
-# fso19
-Full Stack Open 2019 : https://fullstackopen.com/en/
+# Full Stack Open Exercise Submission Repo
+- [ ] **Part 0**:
+  - [ ] 0.1: HTML
+  - [ ] 0.2: CSS
+  - [ ] 0.3: HTML forms
+  - [ ] 0.4: new note
+  - [ ] 0.5: Single page app
+  - [ ] 0.6: New note
+- [ ] **Part 1**:
+  - [ ] __
+- [ ] **Part 2**:
+  - [ ] __
+- [ ] **Part 3**:
+  - [ ] __
+- [ ] **Part 4**:
+  - [ ] __
+- [ ] **Part 5**:
+  - [ ] __
