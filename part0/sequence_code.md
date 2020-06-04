@@ -1,5 +1,6 @@
 # Exercise 0.4
-<code>
+![ex 0.4 sequence diagram](04.png)
+~~~
 title 0.4 new note submit sequence diagram
 
 browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
@@ -23,7 +24,7 @@ note over browser:
 browser executes the event handler
 that renders notes to display
 end note
-</code>
+~~~
 
 
 # Exercise 0.5
