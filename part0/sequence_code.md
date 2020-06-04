@@ -53,3 +53,20 @@ browser executes the event handler
 that renders notes to display
 end note
 ~~~
+
+# Exercise 0.6
+
+![ex 0.6 sequence diagram](06.png)
+~~~
+title 0.6 SPA new note sequence diagram
+
+note over browser:
+browser executes the redrawNotes function
+and displays the new note added and then sends
+the update to the server
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+server-->browser: 201 Created
+server-->browser: {"message":"note created"}
+~~~
