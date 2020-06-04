@@ -1,11 +1,11 @@
 # Full Stack Open Exercise Submission Repo
 - [ ] **Part 0**:
-  - [ ] 0.1: HTML
-  - [ ] 0.2: CSS
+  - [x] 0.1: HTML
+  - [x] 0.2: CSS
   - [ ] 0.3: HTML forms
-  - [ ] 0.4: new note
-  - [ ] 0.5: Single page app
-  - [ ] 0.6: New note
+  - [x] 0.4: new note
+  - [x] 0.5: Single page app
+  - [x] 0.6: New note
 - [ ] **Part 1**:
   - [ ] __
 - [ ] **Part 2**:
