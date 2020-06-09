@@ -6,7 +6,7 @@
   - [x] 0.4: new note
   - [x] 0.5: Single page app
   - [x] 0.6: New note
-- [ ] **Part 1**:
+- [x] **Part 1**:
   - [x] courseinfo
   - [x] unicafe
   - [x] anecdotes
