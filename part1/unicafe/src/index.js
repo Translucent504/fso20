@@ -8,10 +8,16 @@ const Button = ({handleClick, text}) => {
 }
 
 const Statistics = ({good, neutral, bad, all}) => {
+  if(all===0){
+    return <div>
+      <h1>Statistics</h1>
+      no feedback given
+      </div>
+  }
   return (
     <div>
-      <h1>Statistics</h1>
       <ul>
+        <h1>Statistics</h1>
         <li>good {good}</li>
         <li>neutral {neutral}</li>
         <li>bad {bad}</li>
