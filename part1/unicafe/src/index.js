@@ -7,6 +7,19 @@ const Button = ({handleClick, text}) => {
     );
 }
 
+const Statistic = ({name, value}) => {
+  if(["good", "bad", "neutral", "all"].includes(name)){
+    return <div>{name} {value}</div>
+  }
+  if(name === "average"){
+    return <div>{name} {(1*value.good + 0*value.neutral - 1*value.bad)/value.all}</div>
+  }
+  if(name === "percentage"){
+    return <div>{name} {value.good/value.all * 100}</div>
+  }
+}
+
+
 const Statistics = ({good, neutral, bad, all}) => {
   if(all===0){
     return <div>
@@ -18,12 +31,12 @@ const Statistics = ({good, neutral, bad, all}) => {
     <div>
       <ul>
         <h1>Statistics</h1>
-        <li>good {good}</li>
-        <li>neutral {neutral}</li>
-        <li>bad {bad}</li>
-        <li>all {all}</li>
-        <li>average {(1*good + 0*neutral - 1*bad)/all}</li>
-        <li>percentage {good/all * 100}%</li>
+        <li><Statistic name="good" value={good}/></li>
+        <li><Statistic name="neutral" value={neutral}/></li>
+        <li><Statistic name="bad" value={bad}/></li>
+        <li><Statistic name="all" value={all}/></li>
+        <li><Statistic name="average" value={{good:good, neutral:neutral, bad:bad, all:all}}/></li>
+        <li><Statistic name="percentage" value={{good:good, all:all}}/></li>
       </ul>
     </div>
   );
