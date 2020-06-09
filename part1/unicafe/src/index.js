@@ -9,13 +9,22 @@ const Button = ({handleClick, text}) => {
 
 const Statistic = ({name, value}) => {
   if(["good", "bad", "neutral", "all"].includes(name)){
-    return <div>{name} {value}</div>
+    return <tr>
+      <td>{name}</td>
+      <td>{value}</td>
+      </tr>
   }
   if(name === "average"){
-    return <div>{name} {(1*value.good + 0*value.neutral - 1*value.bad)/value.all}</div>
+    return <tr>
+      <td>{name}</td>
+      <td>{(1*value.good + 0*value.neutral - 1*value.bad)/value.all}</td>
+      </tr>
   }
   if(name === "percentage"){
-    return <div>{name} {value.good/value.all * 100}</div>
+    return <tr>
+      <td>{name}</td>
+      <td>{value.good/value.all * 100}%</td>
+      </tr>
   }
 }
 
@@ -29,15 +38,17 @@ const Statistics = ({good, neutral, bad, all}) => {
   }
   return (
     <div>
-      <ul>
-        <h1>Statistics</h1>
-        <li><Statistic name="good" value={good}/></li>
-        <li><Statistic name="neutral" value={neutral}/></li>
-        <li><Statistic name="bad" value={bad}/></li>
-        <li><Statistic name="all" value={all}/></li>
-        <li><Statistic name="average" value={{good:good, neutral:neutral, bad:bad, all:all}}/></li>
-        <li><Statistic name="percentage" value={{good:good, all:all}}/></li>
-      </ul>
+      <h1>Statistics</h1>
+      <table>
+        <tbody>
+          <Statistic name="good" value={good}/>
+          <Statistic name="neutral" value={neutral}/>
+          <Statistic name="bad" value={bad}/>
+          <Statistic name="all" value={all}/>
+          <Statistic name="average" value={{good:good, neutral:neutral, bad:bad, all:all}}/>
+          <Statistic name="percentage" value={{good:good, all:all}}/>
+        </tbody>
+      </table>
     </div>
   );
 }
