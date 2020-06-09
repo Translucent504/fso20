@@ -9,6 +9,7 @@
 - [ ] **Part 1**:
   - [x] courseinfo
   - [x] unicafe
+  - [x] anecdotes
 - [ ] **Part 2**:
   - [ ] __
 - [ ] **Part 3**:
