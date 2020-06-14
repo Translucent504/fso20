@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-
+import Filter from './components/Filter'
+import AddPerson from './components/AddPerson'
+import PersonList from './components/PersonList'
 
 const App = () => {
     const [persons, setPersons] = useState([
@@ -8,65 +10,16 @@ const App = () => {
         { name: 'Dan Abramov', number: '12-43-234345' },
         { name: 'Mary Poppendieck', number: '39-23-6423122' }
       ])
-    const [newName, setNewName] = useState('')
-    const [newNumber, setNewNumber] = useState('')
-    const [personFilter, setPersonFilter] = useState(persons)
-    const addName = (event) => {
-        event.preventDefault();
-        let personExists = false;
-        persons.forEach((person) =>{
-            if(person.name === newName){
-                alert(`${person.name} already Exists`)
-                personExists = !personExists
-                setNewName('')
-            }
-        })
-        if(!personExists){
-            setPersons(persons.concat({name:newName, number:newNumber}))
-            setNewName('')
-            setNewNumber('')
-        }
-        
-    }   
-    const filterNames = (event) => {
-        if(event.target.value){
-            setPersonFilter(persons.filter((person) => {
-                return person.name.toLowerCase().includes(event.target.value.toLowerCase())
-            }))
-        } else{
-        setPersonFilter(persons)
-        }
-    }
-    
+    const [personFilter, setPersonFilter] = useState([...persons])
 
     return (
         <div>
             <h2>Phonebook</h2>
-            <input onChange={filterNames} placeholder="Search"></input>
+            <Filter persons={persons} setPersonFilter={setPersonFilter}/>
             <h2>Add New</h2>
-            <form onSubmit={addName}>
-                <div>
-                    name: <input onChange={(event) => 
-                        setNewName(event.target.value)} 
-                        value={newName}/>
-                </div>
-                <div>
-                    number: <input onChange={(event) => 
-                        setNewNumber(event.target.value)} 
-                        value={newNumber}/>
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
-            </form>
+            <AddPerson persons={persons} setPersons={setPersons} setPersonFilter={setPersonFilter}/>
             <h2>Numbers</h2>
-            <ul>
-                {personFilter.map((person)=>(
-                    <li key={person.name}>
-                        {person.name} {person.number}
-                    </li>
-                ))}
-            </ul>
+            <PersonList personFilter={personFilter}/>
         </div>
     )
 }
