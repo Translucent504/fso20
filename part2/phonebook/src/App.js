@@ -9,8 +9,19 @@ const App = () => {
 
     const addName = (event) => {
         event.preventDefault();
-        setPersons(persons.concat({name:newName}))
-        setNewName('')
+        let personExists = false;
+        persons.forEach((person) =>{
+            if(person.name === newName){
+                alert(`${person.name} already Exists`)
+                personExists = !personExists
+                setNewName('')
+            }
+        })
+        if(!personExists){
+            setPersons(persons.concat({name:newName}))
+            setNewName('')
+        }
+        
     }
 
     const changeNewName = (event) => {
@@ -25,7 +36,7 @@ const App = () => {
             <h2>Phonebook</h2>
             <form onSubmit={addName}>
                 <div>
-                    name: <input onChange={changeNewName}/>
+                    name: <input onChange={changeNewName} value={newName}/>
                 </div>
                 <div>
                     <button type="submit">add</button>
