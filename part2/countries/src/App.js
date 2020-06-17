@@ -29,7 +29,7 @@ const CountryData = ({country}) => (
   
 )
 
-const CountryList = ({countries}) => {
+const CountryList = ({countries, setSearch}) => {
   if (countries.length === 0){
     return <p>No Country Found ...</p>
   }else if(countries.length === 1){
@@ -41,7 +41,7 @@ const CountryList = ({countries}) => {
     <ul>
       {countries.map((c)=>{
         return (
-          <li key={c.numericCode}>{c.name}</li>
+          <li key={c.numericCode}>{c.name} <button onClick={()=>setSearch([c])}>Show</button> </li>
         )
       })}      
     </ul>)
@@ -63,7 +63,7 @@ const App = () => {
   return(
     <div>
       <Search countries={countries} setSearch={setSearch}/>
-      <CountryList countries={search}/>
+      <CountryList countries={search} setSearch={setSearch}/>
     </div>
   );  
 }
