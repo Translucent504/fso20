@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import person from '../services/person'
 
 const AddPerson = ({ persons, setPersons, setPersonFilter }) => {
 
@@ -16,10 +17,14 @@ const AddPerson = ({ persons, setPersons, setPersonFilter }) => {
             }
         })
         if (!personExists) {
-            setPersons(persons.concat({ name: newName, number: newNumber }))
-            setNewName('')
-            setNewNumber('')
-            setPersonFilter(persons.concat({ name: newName, number: newNumber }))
+            person.create({ name: newName, number: newNumber })
+            .then(returnedPerson=>{
+                setPersons(persons.concat(returnedPerson))
+                setNewName('')
+                setNewNumber('')
+                setPersonFilter(persons.concat(returnedPerson))
+            })
+            
         }
 
     }
