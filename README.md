@@ -10,9 +10,10 @@
   - [x] courseinfo
   - [x] unicafe
   - [x] anecdotes
-- [ ] **Part 2**:
+- [x] **Part 2**:
   - [x] phonebook
   - [x] countries
+  - [x] coursecontents
 - [ ] **Part 3**:
   - [ ] __
 - [ ] **Part 4**:
