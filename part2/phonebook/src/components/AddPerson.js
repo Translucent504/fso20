@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import pp from '../services/person'
 
-const AddPerson = ({ persons, setPersons, setPersonFilter }) => {
+const AddPerson = ({ persons, setPersons, setPersonFilter, setNotification }) => {
 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
@@ -17,10 +17,10 @@ const AddPerson = ({ persons, setPersons, setPersonFilter }) => {
                         setPersons(persons.map(p=>p.name===newName? returnedPerson: p))
                         setNewName('')
                         setNewNumber('')
+                        setNotification(`${returnedPerson.name} Updated`)
                     })
                 }
                 personExists = !personExists
-                
             }
         })
         if (!personExists) {
@@ -30,6 +30,7 @@ const AddPerson = ({ persons, setPersons, setPersonFilter }) => {
                 setNewName('')
                 setNewNumber('')
                 setPersonFilter(persons.concat(returnedPerson))
+                setNotification(`${returnedPerson.name} Added`)
             })
             
         }
