@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import pp from '../services/person'
 
-const AddPerson = ({ persons, setPersons, setPersonFilter, setNotification }) => {
+const AddPerson = ({ persons, setPersons, setPersonFilter, setNotification, setErrorMessage }) => {
 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
@@ -18,6 +18,12 @@ const AddPerson = ({ persons, setPersons, setPersonFilter, setNotification }) =>
                         setNewName('')
                         setNewNumber('')
                         setNotification(`${returnedPerson.name} Updated`)
+                    }).catch(()=>{
+                        setPersonFilter(persons.filter(p=>p.id!==person.id))
+                        setPersons(persons.filter(p=>p.id!==person.id))
+                        setNewName('')
+                        setNewNumber('')
+                        setErrorMessage(`${person.name} has already been deleted from the server.`)
                     })
                 }
                 personExists = !personExists

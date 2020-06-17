@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "97-67-511573",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": 2
@@ -19,16 +14,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
-    },
-    {
-      "name": "test2",
-      "number": "5555555",
-      "id": 6
-    },
-    {
-      "name": "test3",
-      "number": "333333333",
-      "id": 7
     },
     {
       "name": "Aslam",

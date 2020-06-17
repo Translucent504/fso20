@@ -4,12 +4,14 @@ import AddPerson from './components/AddPerson'
 import PersonList from './components/PersonList'
 import Notification from './components/Notification'
 import person from './services/person'
-
+import ErrorMessage from './components/ErrorMessage'
 
 const App = () => {
     const [persons, setPersons] = useState([])
     const [personFilter, setPersonFilter] = useState([...persons])
     const [notification, setNotification] = useState('Started..')
+    const [errorMessage, setErrorMessage] = useState(null)
+
     useEffect(()=>{
         person
         .getAll()
@@ -34,9 +36,10 @@ const App = () => {
         <div>
             <h2>Phonebook</h2>
             <Notification message={notification} setNotification={setNotification} />
+            <ErrorMessage message={errorMessage} setErrorMessage={setErrorMessage} />
             <Filter persons={persons} setPersonFilter={setPersonFilter}/>
             <h2>Add New</h2>
-            <AddPerson persons={persons} setPersons={setPersons} setPersonFilter={setPersonFilter} setNotification={setNotification}/>
+            <AddPerson persons={persons} setPersons={setPersons} setPersonFilter={setPersonFilter} setNotification={setNotification} setErrorMessage={setErrorMessage}/>
             <h2>Numbers</h2>
             <PersonList personFilter={personFilter} deletePerson={deletePerson}/>
         </div>
