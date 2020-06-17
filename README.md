@@ -11,7 +11,8 @@
   - [x] unicafe
   - [x] anecdotes
 - [ ] **Part 2**:
-  - [ ] __
+  - [x] phonebook
+  - [x] countries
 - [ ] **Part 3**:
   - [ ] __
 - [ ] **Part 4**:
