@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import AddPerson from './components/AddPerson'
 import PersonList from './components/PersonList'
 import person from './services/person'
+
 const App = () => {
     const [persons, setPersons] = useState([])
     const [personFilter, setPersonFilter] = useState([...persons])
