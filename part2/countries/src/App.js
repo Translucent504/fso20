@@ -6,28 +6,44 @@ const Search = ({countries, setSearch}) => {
     const search_text = e.target.value.toLowerCase()
     const res = countries.filter((country)=>country.name.toLowerCase().includes(search_text))
     setSearch(res)     
-    console.log(res)
   }
   return(
     <input onChange={onSearch} placeholder="Country Name..." type="text"/>
   )  
 }
 
-const CountryData = ({country}) => (
+const CountryData = ({country}) => {
+  const [weather, setWeather] = useState({current: {temperature:0, weather_icons:'', wind_speed:0, wind_dir:''}})
+  useEffect(()=>{
+    axios
+    .get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${country.capital}`)
+    .then((response)=>{
+      setWeather(response.data)
+    })
+  },[])
+
+  return (
   <div>
     <h2>
       {country.name}
     </h2>
     Capital: {country.capital}<br/>
     Population: {country.population}<br/>
-    <p>Languages:</p>
+    <p>
+      Languages:
+    </p>
     <ul>
       {country.languages.map((lang)=><li key={lang.iso639_1}>{lang.name}</li>)}
     </ul>
+    <h3>Weather in {country.capital}</h3>
+    <ul>
+      <li><b>Temperature:</b> {weather.current.temperature} </li>
+      <li><img src={weather.current.weather_icons[0]} alt="weather icon"/> </li>
+      <li><b>Wind:</b>{weather.current.wind_speed} mph direction {weather.current.wind_dir}</li>
+    </ul>
     <img src={country.flag} alt="COUNTRY FLAG"/>
   </div>
-  
-)
+)}
 
 const CountryList = ({countries, setSearch}) => {
   if (countries.length === 0){
