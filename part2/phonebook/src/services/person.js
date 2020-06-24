@@ -8,18 +8,24 @@ const create = (newPerson) => {
 }
 
 const remove = (id) => {
-    const response = axios.delete(`${baseUrl}/${id}`)
-    return response.then(response=>response.data)
+    const response = axios.delete(`${baseUrl}${id}`)
+    return response.then(response => response.data)
 }
 
 const getAll = () => {
     const response = axios.get(baseUrl)
-    return response.then(response=>response.data)
+    return response.then(response => response.data)
 }
 
 const update = (id, newPerson) => {
-    const response = axios.put(`${baseUrl}/${id}`, newPerson)
-    return response.then(response=>response.data)
+    const response = axios.put(`${baseUrl}${id}`, newPerson)
+    return response.then(response => {
+        console.log(response.data)
+        return (
+            response.data
+        )
+    }
+    )
 }
 
 

@@ -10,35 +10,36 @@ const AddPerson = ({ persons, setPersons, setPersonFilter, setNotification, setE
         let personExists = false;
         persons.forEach((person) => {
             if (person.name === newName) {
-                if(window.confirm(`Replace ${person.name}'s phone number? `)){
-                    pp.update(person.id, {name:newName, number:newNumber})
-                    .then(returnedPerson=>{
-                        setPersonFilter(persons.map(p=>p.name===newName? returnedPerson: p))
-                        setPersons(persons.map(p=>p.name===newName? returnedPerson: p))
-                        setNewName('')
-                        setNewNumber('')
-                        setNotification(`${returnedPerson.name} Updated`)
-                    }).catch(()=>{
-                        setPersonFilter(persons.filter(p=>p.id!==person.id))
-                        setPersons(persons.filter(p=>p.id!==person.id))
-                        setNewName('')
-                        setNewNumber('')
-                        setErrorMessage(`${person.name} has already been deleted from the server.`)
-                    })
+                // person exists
+                if (window.confirm(`Replace ${person.name}'s phone number? `)) {
+                    pp.update(person.id, { name: newName, number: newNumber })
+                        .then(returnedPerson => {
+                            console.log("This is supposed to be new:", returnedPerson)
+                            setPersonFilter(persons.map(p => p.name === newName ? returnedPerson : p))
+                            setPersons(persons.map(p => p.name === newName ? returnedPerson : p))
+                            setNewName('')
+                            setNewNumber('')
+                            setNotification(`${returnedPerson.name} Updated`)
+                        }).catch(() => {
+                            setPersonFilter(persons.filter(p => p.id !== person.id))
+                            setPersons(persons.filter(p => p.id !== person.id))
+                            setNewName('')
+                            setNewNumber('')
+                            setErrorMessage(`${person.name} has already been deleted from the server.`)
+                        })
                 }
                 personExists = !personExists
             }
         })
         if (!personExists) {
             pp.create({ name: newName, number: newNumber })
-            .then(returnedPerson=>{
-                setPersons(persons.concat(returnedPerson))
-                setNewName('')
-                setNewNumber('')
-                setPersonFilter(persons.concat(returnedPerson))
-                setNotification(`${returnedPerson.name} Added`)
-            })
-            
+                .then(returnedPerson => {
+                    setPersons(persons.concat(returnedPerson))
+                    setNewName('')
+                    setNewNumber('')
+                    setPersonFilter(persons.concat(returnedPerson))
+                    setNotification(`${returnedPerson.name} Added`)
+                })
         }
 
     }
