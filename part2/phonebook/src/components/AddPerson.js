@@ -20,12 +20,13 @@ const AddPerson = ({ persons, setPersons, setPersonFilter, setNotification, setE
                             setNewName('')
                             setNewNumber('')
                             setNotification(`${returnedPerson.name} Updated`)
-                        }).catch(() => {
-                            setPersonFilter(persons.filter(p => p.id !== person.id))
-                            setPersons(persons.filter(p => p.id !== person.id))
+                        }).catch((error) => {
+                            console.log(error.response.data.error)
+                            // setPersonFilter(persons.filter(p => p.id !== person.id))
+                            // setPersons(persons.filter(p => p.id !== person.id))
                             setNewName('')
                             setNewNumber('')
-                            setErrorMessage(`${person.name} has already been deleted from the server.`)
+                            setErrorMessage(error.response.data.error)
                         })
                 }
                 personExists = !personExists
@@ -39,6 +40,10 @@ const AddPerson = ({ persons, setPersons, setPersonFilter, setNotification, setE
                     setNewNumber('')
                     setPersonFilter(persons.concat(returnedPerson))
                     setNotification(`${returnedPerson.name} Added`)
+                })
+                .catch(error => {
+                    console.log(error.response.data)
+                    setErrorMessage(error.response.data.error)
                 })
         }
 
