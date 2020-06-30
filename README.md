@@ -14,8 +14,8 @@
   - [x] phonebook
   - [x] countries
   - [x] coursecontents
-- [ ] **Part 3**:
-  - [ ] __
+- [x] **Part 3**:
+  - [x] phonebook-backend
 - [ ] **Part 4**:
   - [ ] __
 - [ ] **Part 5**:
