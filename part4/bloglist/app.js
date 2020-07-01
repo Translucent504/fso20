@@ -3,31 +3,14 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-const Blog = require('./models/blog')
+const blogsRouter = require('./controllers/blogs')
 
 const mongoUrl = 'mongodb+srv://fullstack:infinitude@cluster0-skbal.mongodb.net/phonebook?retryWrites=true&w=majority'
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(cors())
 app.use(express.json())
-
-app.get('/api/blogs', (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
-})
-
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-})
+app.use('/api/blogs', blogsRouter)
 
 const PORT = 3003
 app.listen(PORT, () => {
