@@ -17,11 +17,11 @@ const favoriteBlog = (blogs) => {
         title: "DUMMY TEMP",
         author: "DUMMY TEMP",
         likes: 0
-      }
+    }
     const favorite = blogs.reduce((tmp, blg) => {
         return blg.likes >= tmp.likes
-        ? {title: blg.title, author: blg.author, likes: blg.likes}
-        : tmp
+            ? { title: blg.title, author: blg.author, likes: blg.likes }
+            : tmp
     }, tmp)
     return favorite
 }
@@ -35,6 +35,21 @@ const mostBlogs = (blogs) => {
     }
 }
 
+const mostLikes = (blogs) => {
+    const blogsByAuthor = _.groupBy(blogs, b => b.author)
+    const likesByAuthor = _.keys(blogsByAuthor).map(author => {
+        const likes = _.sumBy(blogsByAuthor[author], 'likes')
+        return {
+            author,
+            likes
+        }
+    })
+    return _.isEmpty(blogs)
+    ? {}
+    : _.maxBy(likesByAuthor, 'likes')
+}
+
+
 module.exports = {
-    dummy, totalLikes, favoriteBlog, mostBlogs
+    dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
