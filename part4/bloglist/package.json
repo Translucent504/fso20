@@ -4,7 +4,7 @@
   "description": "Bloglist app part4",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "dev": "nodemon email.js"
   },
   "author": "ERU",
@@ -15,5 +15,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.9.20",
     "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0"
   }
 }
