@@ -102,6 +102,55 @@ describe('Add Blogs', () => {
 
 })
 
+describe('Delete Blogs', () => {
+    test('should not contain deleted blog in list after valid deletion', async () => {
+        // These sort of requests should be get requests, maybe refactor 
+        // them into the test helper.
+        const blogToDeleteId = testHelper.initialBlogs[0]._id 
+
+        await api
+        .delete(`/api/blogs/${blogToDeleteId}`)
+        .expect(204)
+
+        const blogsAtEnd = await api.get('/api/blogs')
+        const ids = blogsAtEnd.body.map(b => b.id)
+        expect(ids).not.toContain(blogToDeleteId)
+    })
+
+    test('should decrease length of list by 1 after deletion', async () => {
+        const blogToDeleteId = testHelper.initialBlogs[0]._id
+        await api
+        .delete(`/api/blogs/${blogToDeleteId}`)
+        .expect(204)
+
+        const blogsAtEnd = await api.get('/api/blogs')
+        expect(blogsAtEnd.body).toHaveLength(testHelper.initialBlogs.length - 1)
+    })
+    
+    
+})
+
+describe('Update Blogs', () => {
+    test('should show updated values after put request', async () => {
+        blogToUpdate = {
+            id: "5a422a851b54a676234d17f7",
+            title: "React patterns",
+            author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 10,
+        }
+
+        await api
+        .put(`/api/blogs/${blogToUpdate.id}`) // post?
+        .send(blogToUpdate)
+        .expect(201)
+
+        const result = await api.get('/api/blogs')
+        expect(result.body).toContainEqual(blogToUpdate)
+    })
+    
+})
+
 
 describe('favorite Blog', () => {
     test('should return dummy temp for empty blog list', () => {
