@@ -24,13 +24,19 @@ describe('Get Blogs', () => {
         .expect('Content-Type', /application\/json/)
     })
 
+    test('should have id field', async () => {
+        const result = await api
+        .get('/api/blogs')
+        expect(result.body[0].id).toBeDefined()
+    })
+    
+
     test('should return all notes', async () => {
         const result = await api
         .get('/api/blogs')
         expect(result.body).toHaveLength(allBlogs.length)
     })
-    
-    
+
 })
 
 
