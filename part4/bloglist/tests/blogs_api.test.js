@@ -19,23 +19,56 @@ describe('Get Blogs', () => {
     const allBlogs = testHelper.initialBlogs
     test('should return json', async () => {
         await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
     })
 
     test('should have id field', async () => {
         const result = await api
-        .get('/api/blogs')
+            .get('/api/blogs')
         expect(result.body[0].id).toBeDefined()
     })
-    
 
     test('should return all notes', async () => {
         const result = await api
-        .get('/api/blogs')
+            .get('/api/blogs')
         expect(result.body).toHaveLength(allBlogs.length)
     })
+
+})
+
+describe('Add Blogs', () => {
+    test('should increase length of list on addition', async () => {
+
+        await api
+            .post('/api/blogs')
+            .send(testHelper.extraBlog)
+            .expect(201)
+
+        const finalBlogs = await api.get('/api/blogs')
+        expect(finalBlogs.body).toHaveLength(testHelper.initialBlogs.length + 1)
+    })
+
+    test('should contain new blog in list after addition', async () => {
+
+        await api
+            .post('/api/blogs')
+            .send(testHelper.extraBlog)
+            .expect(201)
+
+        const finalBlogs = await api.get('/api/blogs')
+        const finalBlogsWithoutIds = finalBlogs.body.map(b => ({
+            title: b.title,
+            author: b.author,
+            url: b.url,
+            likes: b.likes
+        }
+        ))
+        expect(finalBlogsWithoutIds).toContainEqual(testHelper.extraBlog)
+    })
+
+
 
 })
 
