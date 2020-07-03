@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const { isUndefined } = require('lodash')
 const blogsRouter = require('express').Router()
 
 blogsRouter.get('/', async (request, response) => {
@@ -7,9 +8,13 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
-  const blog = new Blog(request.body)
-  const result = await blog.save()
-  response.status(201).json(result)
+  if (isUndefined(request.body.url) && isUndefined(request.body.title)) {
+    response.status(400).end()
+  } else {
+    const blog = new Blog(request.body)
+    const result = await blog.save()
+    response.status(201).json(result)
+  }
 })
 
 module.exports = blogsRouter

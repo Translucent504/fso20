@@ -88,7 +88,17 @@ describe('Add Blogs', () => {
             likes: 0
         })
     })
-    
+
+    test('should 400 Bad Request if Url AND title are missing', async () => {
+        const blogToAdd = {
+            author: "Empty Abdul",
+            likes: 9000
+        }
+        await api
+        .post('/api/blogs')
+        .send(blogToAdd)
+        .expect(400)
+    })   
 
 })
 
