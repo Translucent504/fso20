@@ -68,7 +68,27 @@ describe('Add Blogs', () => {
         expect(finalBlogsWithoutIds).toContainEqual(testHelper.extraBlog)
     })
 
+    test('should default to 0 likes if not included in request', async () => {
+        blogToAdd = {
+            title: "ABDUL THE TESTER",
+            url: "google.com/abdul",
+            author: "not abodl"
+        }
 
+        await api
+        .post('/api/blogs')
+        .send(blogToAdd)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await api.get('/api/blogs')
+        blogsAtEnd.body.forEach(b => delete b.id)
+        expect(blogsAtEnd.body).toContainEqual({
+            ...blogToAdd,
+            likes: 0
+        })
+    })
+    
 
 })
 
