@@ -12,8 +12,18 @@ usersRouter.post('/', async (request, response) => {
     // username , password and name.
     console.log(body)
     const saltRounds = 10
+    // Validate Password
+    if (!body.password || body.password.length < 3) {
+        return response
+            .status(400)
+            .json({
+                error: 'password too short (<3 characters) or not present.'
+            })
+    }
+
+
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
-    const user =  new User({
+    const user = new User({
         username: body.username,
         name: body.name,
         passwordHash
