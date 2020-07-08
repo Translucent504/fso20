@@ -45,8 +45,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzbGFtIiwiaWQiOiI1ZjA1YjgwODlmYTVkNjFmODQwMGIzODMiLCJpYXQiOjE1OTQyMTM4NjN9.CdRE2HO92sqHOgdmLhWdpKwRIPq1M75GAE_h95pelVQ
 
 {
-  "title": "Blog from Auth",
-  "author": "Cyprus the 5th",
+  "title": "Blog from Auth 2",
+  "author": "Cyprus the 6th",
   "url": "www.cyprus.com.edu.pk",
   "likes": 12
 }
