@@ -2,6 +2,7 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const { isUndefined } = require('lodash')
 const blogsRouter = require('express').Router()
+const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', {username:1, name:1, id:1})
@@ -13,11 +14,24 @@ blogsRouter.delete('/:id', async (request, response) => {
   response.status(204).end()
 })
 
+const getTokenFrom = (request) => {
+  const authstring = request.get('authorization')
+  if (authstring && authstring.toLowerCase().startsWith('bearer')) {
+    return authstring.substring(7)
+  }
+  return null
+}
+
 blogsRouter.post('/', async (request, response) => {
   if (isUndefined(request.body.url) && isUndefined(request.body.title)) {
     response.status(400).end()
   } else {
-    const user = await User.findOne()
+    const token = getTokenFrom(request)
+    const decodedUser = jwt.decode(token, process.env.SECRET)
+    const user = await User.findOne({username: decodedUser.username, _id:decodedUser.id})
+    if (!user) {
+      return response.status(401).json({error:'invalid authentication token'})
+    }
     const blog = new Blog({...request.body, user: user._id})
     const result = await blog.save()
     user.blogs.push(blog._id)

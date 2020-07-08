@@ -39,3 +39,14 @@ Content-Type: application/json
   "name": "Aslam Khan",
   "password":"asasdasd"
 }
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzbGFtIiwiaWQiOiI1ZjA1YjgwODlmYTVkNjFmODQwMGIzODMiLCJpYXQiOjE1OTQyMTM4NjN9.CdRE2HO92sqHOgdmLhWdpKwRIPq1M75GAE_h95pelVQ
+
+{
+  "title": "Blog from Auth",
+  "author": "Cyprus the 5th",
+  "url": "www.cyprus.com.edu.pk",
+  "likes": 12
+}
