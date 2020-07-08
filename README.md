@@ -16,7 +16,7 @@
   - [x] coursecontents
 - [x] **Part 3**:
   - [x] phonebook-backend
-- [ ] **Part 4**:
-  - [ ] __
+- [x] **Part 4**:
+  - [x] bloglist
 - [ ] **Part 5**:
   - [ ] __
