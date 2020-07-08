@@ -27,7 +27,9 @@ blogsRouter.delete('/:id', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   if (isUndefined(request.body.url) && isUndefined(request.body.title)) {
     response.status(400).end()
-  } else {
+  } else if (!request.token){
+    return response.status(401).end()
+  }else {
     const decodedUser = jwt.decode(request.token, process.env.SECRET)
     const user = await User.findOne(
       {

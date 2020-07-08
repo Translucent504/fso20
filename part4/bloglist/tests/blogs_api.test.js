@@ -32,9 +32,9 @@ describe('Add Users', () => {
         }
 
         const response = await api
-        .post('/api/users')
-        .send(invalidUser)
-        .expect(400)
+            .post('/api/users')
+            .send(invalidUser)
+            .expect(400)
 
         expect(response.body.error).toContain("shorter than the minimum allowed length (3)")
     })
@@ -47,9 +47,9 @@ describe('Add Users', () => {
         }
 
         const response = await api
-        .post('/api/users')
-        .send(invalidUser)
-        .expect(400)
+            .post('/api/users')
+            .send(invalidUser)
+            .expect(400)
 
         expect(response.body.error).toContain("password too short")
     })
@@ -62,13 +62,13 @@ describe('Add Users', () => {
         }
 
         const response = await api
-        .post('/api/users')
-        .send(invalidUser)
-        .expect(400)
+            .post('/api/users')
+            .send(invalidUser)
+            .expect(400)
 
         expect(response.body.error).toContain("unique")
     })
-    
+
 })
 
 
@@ -87,7 +87,7 @@ describe('Get Blogs', () => {
         expect(result.body[0].id).toBeDefined()
     })
 
-    test('should return all notes', async () => {
+    test('should return all blogs', async () => {
         const result = await api
             .get('/api/blogs')
         expect(result.body).toHaveLength(allBlogs.length)
@@ -96,11 +96,40 @@ describe('Get Blogs', () => {
 })
 
 describe('Add Blogs', () => {
+    test('should fail with 401 if no token given', async () => {
+        const tmpUser = {
+            username: "repeated",
+            password: "123123123"
+        }
+        const user = await User.findOne({ username: tmpUser.username })
+        const blogToAdd = {
+            ...testHelper.extraBlog,
+            user: user._id
+        }
+        await api
+        .post('/api/blogs')
+        .send(blogToAdd)
+        .expect(401)
+    })
+    
     test('should increase length of list on addition', async () => {
+        const tmpUser = {
+            username: "repeated",
+            password: "123123123"
+        }
 
+        const user = await User.findOne({ username: tmpUser.username })
+        const blogToAdd = {
+            ...testHelper.extraBlog,
+            user: user._id
+        }
+        const response = await api
+            .post('/api/login')
+            .send(tmpUser)
         await api
             .post('/api/blogs')
-            .send(testHelper.extraBlog)
+            .set('Authorization', `bearer ${response.body.token}`)
+            .send(blogToAdd)
             .expect(201)
 
         const finalBlogs = await api.get('/api/blogs')
@@ -108,10 +137,24 @@ describe('Add Blogs', () => {
     })
 
     test('should contain new blog in list after addition', async () => {
+        const tmpUser = {
+            username: "repeated",
+            password: "123123123"
+        }
+
+        const user = await User.findOne({ username: tmpUser.username })
+        const blogToAdd = {
+            ...testHelper.extraBlog,
+            user: user._id
+        }
+        const response = await api
+            .post('/api/login')
+            .send(tmpUser)
 
         await api
             .post('/api/blogs')
-            .send(testHelper.extraBlog)
+            .set('Authorization', `bearer ${response.body.token}`)
+            .send(blogToAdd)
             .expect(201)
 
         const finalBlogs = await api.get('/api/blogs')
@@ -126,24 +169,38 @@ describe('Add Blogs', () => {
     })
 
     test('should default to 0 likes if not included in request', async () => {
-        blogToAdd = {
-            title: "ABDUL THE TESTER",
-            url: "google.com/abdul",
-            author: "not abodl"
+
+        const tmpUser = {
+            username: "repeated",
+            password: "123123123"
         }
 
-        await api
-        .post('/api/blogs')
-        .send(blogToAdd)
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
+        const user = await User.findOne({ username: tmpUser.username })
+        const blogToAdd = {
+            ...testHelper.extraBlog,
+            user: user._id
+        }
+        delete blogToAdd.likes
+        const response = await api
+            .post('/api/login')
+            .send(tmpUser)
 
-        const blogsAtEnd = await api.get('/api/blogs')
-        blogsAtEnd.body.forEach(b => delete b.id)
-        expect(blogsAtEnd.body).toContainEqual({
-            ...blogToAdd,
-            likes: 0
-        })
+        await api
+            .post('/api/blogs')
+            .set('Authorization', `bearer ${response.body.token}`)
+            .send(blogToAdd)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+
+        const testBlog = await Blog.findOne(blogToAdd)
+        expect(testBlog.likes).toEqual(0)
+        // const blogsAtEnd = await api.get('/api/blogs')
+        // blogsAtEnd.body.forEach(b => delete b.id)
+        // expect(blogsAtEnd.body).toContainEqual({
+        //     ...blogToAdd,
+        //     likes: 0
+
     })
 
     test('should 400 Bad Request if Url AND title are missing', async () => {
@@ -152,10 +209,10 @@ describe('Add Blogs', () => {
             likes: 9000
         }
         await api
-        .post('/api/blogs')
-        .send(blogToAdd)
-        .expect(400)
-    })   
+            .post('/api/blogs')
+            .send(blogToAdd)
+            .expect(400)
+    })
 
 })
 
@@ -163,11 +220,11 @@ describe('Delete Blogs', () => {
     test('should not contain deleted blog in list after valid deletion', async () => {
         // These sort of requests should be get requests, maybe refactor 
         // them into the test helper.
-        const blogToDeleteId = testHelper.initialBlogs[0]._id 
+        const blogToDeleteId = testHelper.initialBlogs[0]._id
 
         await api
-        .delete(`/api/blogs/${blogToDeleteId}`)
-        .expect(204)
+            .delete(`/api/blogs/${blogToDeleteId}`)
+            .expect(204)
 
         const blogsAtEnd = await api.get('/api/blogs')
         const ids = blogsAtEnd.body.map(b => b.id)
@@ -177,14 +234,14 @@ describe('Delete Blogs', () => {
     test('should decrease length of list by 1 after deletion', async () => {
         const blogToDeleteId = testHelper.initialBlogs[0]._id
         await api
-        .delete(`/api/blogs/${blogToDeleteId}`)
-        .expect(204)
+            .delete(`/api/blogs/${blogToDeleteId}`)
+            .expect(204)
 
         const blogsAtEnd = await api.get('/api/blogs')
         expect(blogsAtEnd.body).toHaveLength(testHelper.initialBlogs.length - 1)
     })
-    
-    
+
+
 })
 
 describe('Update Blogs', () => {
@@ -198,14 +255,14 @@ describe('Update Blogs', () => {
         }
 
         await api
-        .put(`/api/blogs/${blogToUpdate.id}`) // post?
-        .send(blogToUpdate)
-        .expect(201)
+            .put(`/api/blogs/${blogToUpdate.id}`) // post?
+            .send(blogToUpdate)
+            .expect(201)
 
         const result = await api.get('/api/blogs')
         expect(result.body).toContainEqual(blogToUpdate)
     })
-    
+
 })
 
 describe('favorite Blog', () => {

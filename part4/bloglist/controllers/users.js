@@ -10,7 +10,6 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response) => {
     const body = request.body
     // username , password and name.
-    console.log(body)
     const saltRounds = 10
     // Validate Password
     if (!body.password || body.password.length < 3) {
