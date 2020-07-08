@@ -3,10 +3,18 @@ const app = require('../app')
 const api = supertest(app)
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const listHelper = require('../utils/list_helper')
 const testHelper = require('../tests/test_helper')
 
 beforeEach(async () => {
+    await User.deleteMany({})
+    await api.post('/api/users').send({
+        username: "repeated",
+        name: "IamRepeated",
+        password: "123123123"
+    })
+
     await Blog.deleteMany({})
 
     for (let blog of initialBlogs) {
@@ -14,6 +22,55 @@ beforeEach(async () => {
         await blogObject.save()
     }
 })
+
+describe('Add Users', () => {
+    test('should return error for short username', async () => {
+        const invalidUser = {
+            username: "AS",
+            name: "ASLAM",
+            password: "123123123"
+        }
+
+        const response = await api
+        .post('/api/users')
+        .send(invalidUser)
+        .expect(400)
+
+        expect(response.body.error).toContain("shorter than the minimum allowed length (3)")
+    })
+
+    test('should return error for short password', async () => {
+        const invalidUser = {
+            username: "ASLAM777",
+            name: "the root master",
+            password: "1"
+        }
+
+        const response = await api
+        .post('/api/users')
+        .send(invalidUser)
+        .expect(400)
+
+        expect(response.body.error).toContain("password too short")
+    })
+
+    test('should return error for repeated username', async () => {
+        const invalidUser = {
+            username: "repeated",
+            name: "IamRepeated",
+            password: "123123123"
+        }
+
+        const response = await api
+        .post('/api/users')
+        .send(invalidUser)
+        .expect(400)
+
+        expect(response.body.error).toContain("unique")
+    })
+    
+})
+
 
 describe('Get Blogs', () => {
     const allBlogs = testHelper.initialBlogs
@@ -150,7 +207,6 @@ describe('Update Blogs', () => {
     })
     
 })
-
 
 describe('favorite Blog', () => {
     test('should return dummy temp for empty blog list', () => {
