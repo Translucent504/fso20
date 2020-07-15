@@ -11,6 +11,8 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
     const storedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -41,9 +43,17 @@ const App = () => {
         setUsername('')
         setPassword('')
       }
+      setNotification(`Successfully logged in`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000);
 
     } catch (error) {
-      console.log("Invalid credentials")
+      setErrorMsg(`Invalid username or password`)
+      setTimeout(() => {
+        setErrorMsg(null)
+      }, 5000);
+      
     }
   }
 
@@ -61,12 +71,16 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
+    setNotification(`Successfully logged out`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000);
     setUser(null)
   }
 
   const handleBlogCreate = async (event) => {
     event.preventDefault()
-    const newBlog = {title, author, url}
+    const newBlog = { title, author, url }
     try {
       const response = await blogService.create(newBlog)
       console.log(response)
@@ -74,8 +88,16 @@ const App = () => {
       setAuthor('')
       setUrl('')
       setTitle('')
+      setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000);
     } catch (error) {
       console.log('invalid blog?')
+      setErrorMsg(`Cant create Blog: ${error}`)
+      setTimeout(() => {
+        setErrorMsg(null)
+      }, 5000);
       setAuthor('')
       setUrl('')
       setTitle('')
@@ -101,6 +123,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      {notification && <h2 style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
+      {errorMsg && <h2 style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
       {!user
         ? loginForm()
         : <div>
