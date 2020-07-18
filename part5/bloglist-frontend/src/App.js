@@ -119,7 +119,9 @@ const App = () => {
               <BlogForm handleBlogCreate={handleBlogCreate}/>
             </Toggleable>
             {
-              blogs.map(blog =>
+              blogs
+              .sort((b1, b2) => b2.likes - b1.likes)
+              .map(blog =>
                 <Blog handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
               )
             }
