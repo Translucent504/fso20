@@ -97,6 +97,10 @@ const App = () => {
     }
   }
 
+  const handleBlogUpdate = async () => {
+    const allBlogs = await blogService.getAll()
+    setBlogs(allBlogs)
+  }
 
 
 
@@ -116,7 +120,7 @@ const App = () => {
             </Toggleable>
             {
               blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} />
+                <Blog handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
               )
             }
           </div>
