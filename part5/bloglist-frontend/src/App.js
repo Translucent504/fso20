@@ -8,7 +8,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState({username:'fake'})
+  const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
   const blogToggleRef = useRef()
@@ -122,7 +122,7 @@ const App = () => {
               blogs
               .sort((b1, b2) => b2.likes - b1.likes)
               .map(blog =>
-                <Blog handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
+                <Blog user={user} handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
               )
             }
           </div>
