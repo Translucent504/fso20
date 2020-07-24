@@ -13,7 +13,6 @@ const Blog = ({ blog, handleBlogUpdate, user }) => {
   const [owner, setOwner] = useState(false)
 
   useEffect(() => {
-    console.log('firing')
     if (blog.user.username === user.username) {
       setOwner(true)
     } else {
@@ -31,8 +30,9 @@ const Blog = ({ blog, handleBlogUpdate, user }) => {
   }
 
   const handleLike = async () => {
+    handleBlogUpdate() 
+    // with this ordering it will show the UI to update before the server has actually updated.
     await blogService.likeBlog(blog)
-    handleBlogUpdate()
   }
 
   const handleDelete = async () => {
@@ -48,7 +48,7 @@ const Blog = ({ blog, handleBlogUpdate, user }) => {
       <div className="blogDetails" style={{ display: showDetails ? '' : 'none' }}>
         <ul style={{ 'listStyle': 'none' }}>
           <li>{blog.url}</li>
-          <li>Likes: {blog.likes} <button onClick={handleLike}>like</button></li>
+          <li>Likes: {blog.likes} <button className='likeButton' onClick={handleLike}>like</button></li>
           <li>{blog.user.name}</li>
           <button onClick={handleDelete} style={showWhenOwner}>Delete</button>
         </ul>

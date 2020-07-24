@@ -4,11 +4,11 @@ import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
-  let component;
+  let component, mockHandler, blog, user;
 
   beforeEach(() => {
-    const user = { username: 'test username' }
-    const blog = {
+    user = { username: 'test username' }
+    blog = {
       title: 'test title',
       author: 'test author',
       url: 'test url',
@@ -16,7 +16,7 @@ describe('<Blog />', () => {
       user: { name: 'test user name' }
     }
 
-    const mockHandler = jest.fn()
+    mockHandler = jest.fn()
 
     component = render(
       <Blog handleBlogUpdate={mockHandler} blog={blog} user={user} />
@@ -40,6 +40,14 @@ describe('<Blog />', () => {
 
     expect(blogDetails).not.toHaveStyle('display: none')
   })
+
+  test('should call handleBlogUpdate twice if like button is clicked twice', () => {
+    const likeButton = component.container.querySelector('.likeButton')
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
+  
   
 })
 
