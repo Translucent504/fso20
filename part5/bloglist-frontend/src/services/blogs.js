@@ -10,10 +10,10 @@ const setToken = (newToken) => {
 const create = async (blog) => {
   // assuming that the blog is an object of the form {url, author, title}
   const config = {
-    headers: {Authorization: token}
+    headers: { Authorization: token }
   }
   const response = await axios.post(baseUrl, blog, config)
-  return response.data 
+  return response.data
 }
 
 const getAll = async () => {
@@ -23,7 +23,7 @@ const getAll = async () => {
 
 const deleteBlog = async (blog) => {
   const config = {
-    headers: {Authorization: token}
+    headers: { Authorization: token }
   }
   const response = await axios.delete(`${baseUrl}/${blog.id}`, config)
   return response.data

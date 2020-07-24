@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleBlogUpdate, user }) => {
+  Blog.propTypes = {
+    blog: PropTypes.object.isRequired,
+    handleBlogUpdate: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
+  }
+
   const [showDetails, setShowDetails] = useState(false)
   const [owner, setOwner] = useState(false)
 
@@ -36,9 +43,9 @@ const Blog = ({ blog, handleBlogUpdate, user }) => {
   }
 
   return (
-    <div>
+    <div className="blogDiv">
       {blog.title} {blog.author} <button onClick={handleShowDetails}>{showDetails ? 'Hide Details' : 'View Details'}</button>
-      <div style={{ display: showDetails ? '' : 'none' }}>
+      <div className="blogDetails" style={{ display: showDetails ? '' : 'none' }}>
         <ul style={{ 'listStyle': 'none' }}>
           <li>{blog.url}</li>
           <li>Likes: {blog.likes} <button onClick={handleLike}>like</button></li>

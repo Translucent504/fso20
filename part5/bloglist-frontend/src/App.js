@@ -42,16 +42,16 @@ const App = () => {
         setUsername('')
         setPassword('')
       }
-      setNotification(`Successfully logged in`)
+      setNotification('Successfully logged in')
       setTimeout(() => {
         setNotification(null)
-      }, 5000);
+      }, 5000)
 
     } catch (error) {
-      setErrorMsg(`Invalid username or password`)
+      setErrorMsg('Invalid username or password')
       setTimeout(() => {
         setErrorMsg(null)
-      }, 5000);
+      }, 5000)
 
     }
   }
@@ -70,10 +70,10 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
-    setNotification(`Successfully logged out`)
+    setNotification('Successfully logged out')
     setTimeout(() => {
       setNotification(null)
-    }, 5000);
+    }, 5000)
     setUser(null)
   }
 
@@ -87,13 +87,13 @@ const App = () => {
       setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`)
       setTimeout(() => {
         setNotification(null)
-      }, 5000);
+      }, 5000)
     } catch (error) {
       console.log('invalid blog?')
       setErrorMsg(`Cant create Blog: ${error}`)
       setTimeout(() => {
         setErrorMsg(null)
-      }, 5000);
+      }, 5000)
     }
   }
 
@@ -116,14 +116,14 @@ const App = () => {
           <button onClick={handleLogout}>Logout</button>
           <div>
             <Toggleable buttonLabel='Create new Blog' ref={blogToggleRef}>
-              <BlogForm handleBlogCreate={handleBlogCreate}/>
+              <BlogForm handleBlogCreate={handleBlogCreate} />
             </Toggleable>
             {
               blogs
-              .sort((b1, b2) => b2.likes - b1.likes)
-              .map(blog =>
-                <Blog user={user} handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
-              )
+                .sort((b1, b2) => b2.likes - b1.likes)
+                .map(blog =>
+                  <Blog user={user} handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
+                )
             }
           </div>
         </div>
