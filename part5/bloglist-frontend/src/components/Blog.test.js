@@ -36,7 +36,7 @@ describe('<Blog />', () => {
     const button = component.getByText('View Details')
     const blogDetails = component.container.querySelector('.blogDetails')
 
-    fireEvent.click(button)
+    fireEvent.click(button) 
 
     expect(blogDetails).not.toHaveStyle('display: none')
   })
