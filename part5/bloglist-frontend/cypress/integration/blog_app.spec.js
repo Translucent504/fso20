@@ -64,5 +64,23 @@ describe('Blog app', function () {
             cy.contains('Cypress Title')
             cy.contains('Cypress Author')
         })
+
+        describe.only('And Blog exists', function () {
+            it('a blog can be liked', function() {
+                cy.createBlog({
+                    url:'testurl',
+                    author:'testauthor',
+                    title:'testtitle'
+                });
+                cy.contains('testauthor')
+                .contains('View Details')
+                .click()
+                .parent()
+                .contains('like')
+                .click()
+                .parent()
+                .contains('Likes: 1')
+            })
+        })
     });
 });
