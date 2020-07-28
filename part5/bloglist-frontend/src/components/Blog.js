@@ -8,17 +8,8 @@ const Blog = ({ blog, handleBlogUpdate, user }) => {
     handleBlogUpdate: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
   }
-
+  const owner = blog.user.username === user.username
   const [showDetails, setShowDetails] = useState(false)
-  const [owner, setOwner] = useState(false)
-
-  useEffect(() => {
-    if (blog.user.username === user.username) {
-      setOwner(true)
-    } else {
-      setOwner(false)
-    }
-  }, [blog.user.username, user.username])
 
   const showWhenOwner = {
     display: owner ? '' : 'none',
@@ -30,9 +21,8 @@ const Blog = ({ blog, handleBlogUpdate, user }) => {
   }
 
   const handleLike = async () => {
-    handleBlogUpdate() 
-    // with this ordering it will show the UI to update before the server has actually updated.
     await blogService.likeBlog(blog)
+    handleBlogUpdate() 
   }
 
   const handleDelete = async () => {

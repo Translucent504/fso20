@@ -57,14 +57,14 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
+    <form id="loginForm" onSubmit={handleLogin}>
       <div>
-        Username:<input type="text" value={username} onChange={({ target }) => setUsername(target.value)} />
+        Username:<input id="username" type="text" value={username} onChange={({ target }) => setUsername(target.value)} />
       </div>
       <div>
-        Password:<input type="password" value={password} onChange={({ target }) => setPassword(target.value)} />
+        Password:<input id="password" type="password" value={password} onChange={({ target }) => setPassword(target.value)} />
       </div>
-      <button type="submit">Login</button>
+      <button id="loginButton" type="submit">Login</button>
     </form>
   )
 
@@ -83,7 +83,8 @@ const App = () => {
     try {
       const response = await blogService.create(newBlog)
       console.log(response)
-      setBlogs([...blogs, response])
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
       setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`)
       setTimeout(() => {
         setNotification(null)
@@ -102,13 +103,11 @@ const App = () => {
     setBlogs(allBlogs)
   }
 
-
-
   return (
     <div>
       <h2>blogs</h2>
-      {notification && <h2 style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
-      {errorMsg && <h2 style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
+      {notification && <h2 id="notification" style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
+      {errorMsg && <h2 id="error" style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
       {!user
         ? loginForm()
         : <div>
