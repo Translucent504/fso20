@@ -32,9 +32,9 @@ describe('Blog app', function () {
                 cy.get('#password').type('lolzzz')
                 cy.get('#loginButton').click()
                 cy.get('#error')
-                .should('contain','Invalid username or password')
-                .and('have.css', 'color', 'rgb(255, 0, 0)')
-                .and('have.css', 'border','2px solid rgb(255, 0, 0)')
+                    .should('contain', 'Invalid username or password')
+                    .and('have.css', 'color', 'rgb(255, 0, 0)')
+                    .and('have.css', 'border', '2px solid rgb(255, 0, 0)')
             });
 
         })
@@ -49,11 +49,20 @@ describe('Blog app', function () {
 
     describe('When Logged in', function () {
         beforeEach(function () {
-            cypress.login({
+            cy.login({
                 username: 'cypress',
                 password: 'cypresspassword'
             })
         });
 
+        it('a blog can be created', function () {
+            cy.contains('Create New Blog').click()
+            cy.get("#title").type('Cypress Title')
+            cy.get('#author').type('Cypress Author')
+            cy.get('#url').type('Cypress url')
+            cy.get('#createBlogButton').click()
+            cy.contains('Cypress Title')
+            cy.contains('Cypress Author')
+        })
     });
 });
