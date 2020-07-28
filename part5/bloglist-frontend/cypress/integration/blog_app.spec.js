@@ -53,6 +53,7 @@ describe('Blog app', function () {
                 username: 'cypress',
                 password: 'cypresspassword'
             })
+            cy.visit('http://localhost:3000')
         });
 
         it('a blog can be created', function () {
@@ -84,7 +85,13 @@ describe('Blog app', function () {
                     author: 'alternate testauthor',
                     title: 'alternate testtitle'
                 });
+                cy.createBlog({
+                    url: 'misc1url',
+                    author: 'misc1author',
+                    title: 'misc1title'
+                });
                 cy.login({ username: 'cypress', password: 'cypresspassword' })
+                cy.visit('http://localhost:3000')
             })
 
             it('a blog can be liked', function () {
@@ -98,7 +105,7 @@ describe('Blog app', function () {
                     .contains('Likes: 1')
             })
 
-            it.only('cypress can delete own blog', function () {
+            it('cypress can delete own blog', function () {
                 cy.contains('testauthor')
                     .contains('View Details').click()
                     .parent()
@@ -120,6 +127,23 @@ describe('Blog app', function () {
                 cy.get("#main")
                     .should('contain', 'alternate testauthor')
 
+            })
+
+            it.only('blogs should be sorted by likes in descending order', function () {
+                // last added blog with 0 likes should be at the bottom
+                cy.get('.blogDiv:last')
+                    .should('contain', 'misc1author')
+                    .contains('View Details')
+                    .click()
+                    .parent()
+                    .contains('like')
+                    .click() // increase the likes of the blog that was at the bottom
+                    .click()
+                    .click()
+
+                // The blog should now be at the top since it has the most likes.
+                cy.get('.blogDiv:first')
+                    .should('contain', 'misc1author')
             })
         })
     });

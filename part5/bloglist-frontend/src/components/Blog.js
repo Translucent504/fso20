@@ -21,6 +21,7 @@ const Blog = ({ blog, handleBlogUpdate, user }) => {
   }
 
   const handleLike = async () => {
+    blog = {...blog, likes: blog.likes+1}
     await blogService.likeBlog(blog)
     handleBlogUpdate() 
   }

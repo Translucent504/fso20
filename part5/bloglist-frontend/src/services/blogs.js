@@ -32,7 +32,7 @@ const deleteBlog = async (blog) => {
 const likeBlog = async (blog) => {
   const requestObject = {
     user: blog.user.id,
-    likes: blog.likes + 1,
+    likes: blog.likes,
     title: blog.title,
     author: blog.author,
     url: blog.url
