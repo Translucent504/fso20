@@ -18,5 +18,5 @@
   - [x] phonebook-backend
 - [x] **Part 4**:
   - [x] bloglist
-- [ ] **Part 5**:
-  - [ ] __
+- [x] **Part 5**:
+  - [x] bloglist-frontend
