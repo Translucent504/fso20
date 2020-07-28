@@ -104,7 +104,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div id="main">
       <h2>blogs</h2>
       {notification && <h2 id="notification" style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
       {errorMsg && <h2 id="error" style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
