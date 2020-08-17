@@ -5,6 +5,7 @@ import { notify, removeNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
     const anecdotes = useSelector(state => state.anecdotes)
+    const filterString = useSelector(state => state.filter)
     const dispatch = useDispatch()
 
     const vote = (id) => {
@@ -18,13 +19,15 @@ const AnecdoteList = () => {
 
     return (
         <div>
-            {anecdotes.map(anecdote =>
+            {anecdotes
+            .filter(a => a.content.includes(filterString))
+            .map(anecdote =>
                 <div key={anecdote.id}>
                     <div>
                         {anecdote.content}
                     </div>
                     <div>
-                        has {anecdote.votes}
+                        has {anecdote.votes} 
                         <button onClick={() => vote(anecdote.id)}>vote</button>
                     </div>
                 </div>
