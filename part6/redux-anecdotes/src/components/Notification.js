@@ -10,6 +10,7 @@ const Notification = () => {
     borderWidth: 1
   }
   return (
+    notification && 
     <div style={style}>
       {notification}
     </div>
