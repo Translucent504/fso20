@@ -29,11 +29,9 @@ const anecdoteReducer = (state = [], action) => {
     }
 
     case 'NEW_ANECDOTE': {
-      const content = action.data.content
-      const anecdoteToAdd = asObject(content)
       return [
         ...state,
-        anecdoteToAdd
+        action.data
       ]
     }
 
@@ -60,12 +58,10 @@ export const initializeAnecdotes = (data) => {
 }
 
 
-export const createAnecdote = (content) => {
+export const createAnecdote = (data) => {
   return {
     type: 'NEW_ANECDOTE',
-    data: {
-      content
-    }
+    data
   }
 }
 
