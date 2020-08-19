@@ -1,5 +1,3 @@
-
-
 const notificationReducer = (state = '', action) => {
     switch (action.type) {
 
@@ -14,10 +12,15 @@ const notificationReducer = (state = '', action) => {
     }
 }
 
-export const notify = (message) => {
-    return {
-        type: 'SHOW_NOTIFICATION',
-        data: message
+export const notify = (message, duration) => {
+    return async (dispatch) => {
+        dispatch({
+            type: 'SHOW_NOTIFICATION',
+            data: message
+        })
+        setTimeout(() => {
+            dispatch(removeNotification())
+        }, 1000 * duration);
     }
 }
 
