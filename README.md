@@ -20,3 +20,6 @@
   - [x] bloglist
 - [x] **Part 5**:
   - [x] bloglist-frontend
+- [x] **Part 6**:
+  - [x] unicafe-redux
+  - [x] redux-anecdotes
