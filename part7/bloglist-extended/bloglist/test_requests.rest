@@ -1,0 +1,54 @@
+GET http://localhost:3003/api/blogs HTTP/1.1
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "ABDUL PART 5",
+  "author": "ABdul QuDOsS",
+  "url": "ABDUL.COM",
+  "likes": 12
+}
+###
+DELETE http://localhost:3003/api/blogs/5f05cd6a98a9e7084cec5b16 HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzbGFtIiwiaWQiOiI1ZjA1YjgwODlmYTVkNjFmODQwMGIzODMiLCJpYXQiOjE1OTQyMTM4NjN9.CdRE2HO92sqHOgdmLhWdpKwRIPq1M75GAE_h95pelVQ
+
+###
+PUT http://localhost:3003/api/blogs/5eff2e970979bd190c65c648 HTTP/1.1
+Content-Type: application/json
+
+{"likes": 666, "title": "RETURN OF THE ABDUL PART 3",
+    "author": "ABdul QuDOsS",
+    "url": "ABDULREVENGEOFTHEFALLEN.COM"}
+###
+POST http://localhost:3003/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "testingAuth",
+  "name": "My name Auth tester",
+  "password":"authtester"
+}
+###
+GET http://localhost:3003/api/users HTTP/1.1
+###
+
+POST http://localhost:3003/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "aslam",
+  "name": "Aslam Khan",
+  "password":"asasdasd"
+}
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzbGFtIiwiaWQiOiI1ZjA1YjgwODlmYTVkNjFmODQwMGIzODMiLCJpYXQiOjE1OTQyMTM4NjN9.CdRE2HO92sqHOgdmLhWdpKwRIPq1M75GAE_h95pelVQ
+
+{
+  "title": "Blog TO BE DELETED",
+  "author": "Cyprus the GRIM REPAEAR",
+  "url": "www.cyprus.com.edu.pk",
+  "likes": 12
+}
