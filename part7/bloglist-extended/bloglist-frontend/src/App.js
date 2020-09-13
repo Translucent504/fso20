@@ -7,16 +7,18 @@ import BlogForm from './components/BlogForm'
 import { notify } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from './reducers/errorReducer'
+import { createBlog, refreshBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogToggleRef = useRef()
   const notification = useSelector(state => state.notification.message)
+  const blogs = useSelector(state => state.blogs)
   const errorMsg = useSelector(state => state.error.message)
   const dispatch = useDispatch()
+
   useEffect(() => {
     const storedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (storedUserJSON) {
@@ -27,10 +29,8 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [])
+    dispatch(refreshBlogs())
+  }, [dispatch])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -72,13 +72,10 @@ const App = () => {
   }
 
   const handleBlogCreate = async (Blog) => {
-    const newBlog = Blog
     blogToggleRef.current.toggleVisible()
     try {
-      const response = await blogService.create(newBlog)
-      console.log(response)
-      const allBlogs = await blogService.getAll()
-      setBlogs(allBlogs)
+      const newBlog = await blogService.create(Blog)
+      dispatch(createBlog(newBlog))
       dispatch(notify(`a new blog ${newBlog.title} by ${newBlog.author} added`))
     } catch (error) {
       console.log('invalid blog?')
@@ -86,9 +83,8 @@ const App = () => {
     }
   }
 
-  const handleBlogUpdate = async () => {
-    const allBlogs = await blogService.getAll()
-    setBlogs(allBlogs)
+  const handleBlogUpdate = () => {
+    dispatch(refreshBlogs())
   }
 
   return (
