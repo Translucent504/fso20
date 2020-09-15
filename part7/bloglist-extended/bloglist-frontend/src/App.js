@@ -63,10 +63,6 @@ const App = () => {
     }
   }
 
-  const handleBlogUpdate = () => {
-    dispatch(refreshBlogs())
-  }
-
   return (
     <div id="main">
       <Router>
@@ -88,7 +84,7 @@ const App = () => {
                     blogs
                       .sort((b1, b2) => b2.likes - b1.likes)
                       .map(blog =>
-                        <Blog user={user} handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
+                        <Blog key={blog.id} blog={blog} />
                       )
                   }
                 </div>
