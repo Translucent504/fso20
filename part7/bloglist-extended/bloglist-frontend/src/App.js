@@ -10,6 +10,8 @@ import { createBlog, refreshBlogs } from './reducers/blogReducer'
 import { initializeUser, loginUser, logoutUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import UsersTable from './components/UsersTable'
+import UserInfo from './components/UserInfo'
+import BlogInfo from './components/BlogInfo'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -91,9 +93,9 @@ const App = () => {
                   }
                 </div>
               </Route>
-              <Route path='users'>
-                <UsersTable />
-              </Route>
+              <Route path='users' element={<UsersTable />} />
+              <Route path='users/:id' element={<UserInfo />} />
+              <Route path='blogs/:id' element={<BlogInfo />} />
             </Routes>
           </div>
         }
