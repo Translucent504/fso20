@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showError } from './reducers/errorReducer'
 import { createBlog, refreshBlogs } from './reducers/blogReducer'
 import { initializeUser, loginUser, logoutUser } from './reducers/userReducer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import UsersTable from './components/UsersTable'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -65,28 +67,37 @@ const App = () => {
 
   return (
     <div id="main">
-      <h2>blogs</h2>
-      {notification && <h2 id="notification" style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
-      {errorMsg && <h2 id="error" style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
-      {!user
-        ? loginForm()
-        : <div>
-          <p>{user.username} Logged in</p>
-          <button onClick={handleLogout}>Logout</button>
-          <div>
-            <Toggleable buttonLabel='Create New Blog' ref={blogToggleRef}>
-              <BlogForm handleBlogCreate={handleBlogCreate} />
-            </Toggleable>
-            {
-              blogs
-                .sort((b1, b2) => b2.likes - b1.likes)
-                .map(blog =>
-                  <Blog user={user} handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
-                )
-            }
+      <Router>
+        <h2>blogs</h2>
+        {notification && <h2 id="notification" style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
+        {errorMsg && <h2 id="error" style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
+        {!user
+          ? loginForm()
+          : <div>
+            <p>{user.username} Logged in</p>
+            <button onClick={handleLogout}>Logout</button>
+            <Routes>
+              <Route path='/'>
+                <div>
+                  <Toggleable buttonLabel='Create New Blog' ref={blogToggleRef}>
+                    <BlogForm handleBlogCreate={handleBlogCreate} />
+                  </Toggleable>
+                  {
+                    blogs
+                      .sort((b1, b2) => b2.likes - b1.likes)
+                      .map(blog =>
+                        <Blog user={user} handleBlogUpdate={handleBlogUpdate} key={blog.id} blog={blog} />
+                      )
+                  }
+                </div>
+              </Route>
+              <Route path='users'>
+                <UsersTable />
+              </Route>
+            </Routes>
           </div>
-        </div>
-      }
+        }
+      </Router>
     </div>
   )
 }
