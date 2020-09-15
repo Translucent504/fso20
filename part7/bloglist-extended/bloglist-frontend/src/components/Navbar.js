@@ -1,13 +1,22 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { AppBar, Button,Toolbar } from '@material-ui/core'
 
 const Navbar = ({ user, handleLogout }) => {
     return (
-        <div className='navbar' style={{background:'lightgray', padding:'10px', margin:'5px'}}>
-            <span style={{marginLeft:'10px'}}><NavLink to='/'>blogs</NavLink></span>
-            <span style={{marginLeft:'10px'}}><NavLink to='/users'>users</NavLink></span>
-            <span style={{marginLeft:'10px'}}>{user} Logged in</span>
-            <button style={{marginLeft:'10px'}} onClick={handleLogout}>Logout</button>
+        user &&
+        <div className='navbar' style={{ background: 'lightgray', padding: '10px', margin: '5px' }}>
+            <AppBar position="static">
+                <Toolbar>
+
+
+                    <Button color="inherit" component={NavLink} to='/'>blogs</Button>
+                    <Button color="inherit" component={NavLink} to='/users'>users</Button>
+                    <Button color="inherit" to='/users' onClick={handleLogout}>Logout</Button>
+
+                </Toolbar>
+            </AppBar>
+
         </div>
     )
 }

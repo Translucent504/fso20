@@ -67,12 +67,12 @@ const App = () => {
   return (
     <div id="main">
       <Router>
+        <Navbar user={user} handleLogout={handleLogout}/>
         {notification && <h2 id="notification" style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
         {errorMsg && <h2 id="error" style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
         {!user
           ? loginForm()
           : <div>
-            <Navbar user={user.username} handleLogout={handleLogout}/>
             <Routes>
               <Route path='/'>
                 <div>
