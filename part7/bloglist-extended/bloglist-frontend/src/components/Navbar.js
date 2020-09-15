@@ -6,7 +6,7 @@ const Navbar = ({ user, handleLogout }) => {
         <div className='navbar' style={{background:'lightgray', padding:'10px', margin:'5px'}}>
             <span style={{marginLeft:'10px'}}><NavLink to='/'>blogs</NavLink></span>
             <span style={{marginLeft:'10px'}}><NavLink to='/users'>users</NavLink></span>
-            <span style={{marginLeft:'10px'}}>{user.username} Logged in</span>
+            <span style={{marginLeft:'10px'}}>{user} Logged in</span>
             <button style={{marginLeft:'10px'}} onClick={handleLogout}>Logout</button>
         </div>
     )
