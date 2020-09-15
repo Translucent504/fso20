@@ -7,6 +7,7 @@ const initialState = [
 const SET_BLOGS = 'SET_BLOGS'
 const CREATE_BLOG = 'CREATE_BLOG'
 const LIKE_BLOG = 'LIKE_BLOG'
+const COMMENT_BLOG = 'COMMENT_BLOG'
 
 const blogReducer = (state = initialState, { type, payload }) => {
     switch (type) {
@@ -41,11 +42,20 @@ const blogReducer = (state = initialState, { type, payload }) => {
 
         case LIKE_BLOG:
             const blogIndex = state.findIndex(blog => blog.id === payload.id)
-            return state.map((blog, index)=> {
+            return state.map((blog, index) => {
                 if (index !== blogIndex) {
                     return blog
                 }
-                return {...blog, likes: blog.likes + 1}
+                return { ...blog, likes: blog.likes + 1 }
+            })
+
+        case COMMENT_BLOG:
+            const idx = state.findIndex(blog => blog.id === payload.id)
+            return state.map((blog, index) => {
+                if (index !== idx) {
+                    return blog
+                }
+                return payload
             })
         default:
             return state
@@ -73,6 +83,16 @@ export const likeBlog = (payload) => {
         dispatch({
             type: LIKE_BLOG,
             payload
+        })
+    }
+}
+
+export const commentBlog = (payload) => {
+    return async (dispatch) => {
+        const result = await blogService.commentBlog(payload.id, payload.comment)
+        dispatch({
+            type: COMMENT_BLOG,
+            payload: result
         })
     }
 }
