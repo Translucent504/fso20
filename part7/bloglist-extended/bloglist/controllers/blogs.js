@@ -61,4 +61,16 @@ blogsRouter.put('/:id', async (request, response) => {
   response.status(201).json(result)
 })
 
+blogsRouter.get('/:id/comments', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  response.json(blog.comments)
+})
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  const comment = request.body.comment
+  blog.comments.push(comment)
+  const result = await blog.save()
+  response.status(201).json(result)
+})
 module.exports = blogsRouter

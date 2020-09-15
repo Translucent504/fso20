@@ -11,7 +11,7 @@ const UserInfo = () => {
             {user?.name}
         </h1>
         <h2>Added Blogs</h2>
-        {user?.blogs?.map(blog => <Link to={`/blogs/${blog.id}`} key={blog.id}>{blog.title}</Link>)}
+        {user?.blogs?.map(blog => <li key={blog.id}><Link to={`/blogs/${blog.id}`} >{blog.title}</Link></li>)}
         </>
     )
 }

@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import UsersTable from './components/UsersTable'
 import UserInfo from './components/UserInfo'
 import BlogInfo from './components/BlogInfo'
+import Navbar from './components/Navbar'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -66,14 +67,12 @@ const App = () => {
   return (
     <div id="main">
       <Router>
-        <h2>blogs</h2>
         {notification && <h2 id="notification" style={{ background: 'aquamarine', border: 'green solid 2px', color: 'green' }}>{notification}</h2>}
         {errorMsg && <h2 id="error" style={{ border: 'red solid 2px', color: 'red' }} >{errorMsg}</h2>}
         {!user
           ? loginForm()
           : <div>
-            <p>{user.username} Logged in</p>
-            <button onClick={handleLogout}>Logout</button>
+            <Navbar user={user.username} handleLogout={handleLogout}/>
             <Routes>
               <Route path='/'>
                 <div>

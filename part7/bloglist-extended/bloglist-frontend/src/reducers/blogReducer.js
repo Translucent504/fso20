@@ -7,6 +7,7 @@ const initialState = [
 const SET_BLOGS = 'SET_BLOGS'
 const CREATE_BLOG = 'CREATE_BLOG'
 const LIKE_BLOG = 'LIKE_BLOG'
+
 const blogReducer = (state = initialState, { type, payload }) => {
     switch (type) {
 
@@ -21,7 +22,8 @@ const blogReducer = (state = initialState, { type, payload }) => {
                     author: item.author,
                     url: item.url,
                     user: item.user,
-                    id: item.id
+                    id: item.id,
+                    comments: item.comments
                 }
             ))
             return blogs
@@ -33,7 +35,8 @@ const blogReducer = (state = initialState, { type, payload }) => {
                 author: payload.author,
                 url: payload.url,
                 user: payload.user,
-                id: payload.id
+                id: payload.id,
+                comments: []
             }]
 
         case LIKE_BLOG:

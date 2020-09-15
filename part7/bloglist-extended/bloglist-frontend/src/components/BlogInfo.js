@@ -18,6 +18,8 @@ const BlogInfo = () => {
             <a href={`${blog?.url}`}>{blog?.url}</a>
             <span>likes {blog?.likes} <button onClick={() => handleLike()}>Like</button></span>
             <p>added By {blog?.user.username}</p>
+            <h2>Comments</h2>
+            {blog?.comments?.map((comment, index) => <li key={index}>{comment}</li>)}
         </>
     )
 }
