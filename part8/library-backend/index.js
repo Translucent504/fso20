@@ -1,5 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server')
-const {v1: uuid} = require('uuid')
+const { v1: uuid } = require('uuid')
 
 let authors = [
   {
@@ -108,6 +108,9 @@ const typeDefs = gql`
       published: Int!
       genres: [String!]!): Book
 
+    editAuthor(
+      name: String!
+      setBornTo: Int!): Author
   }
 `
 
@@ -122,13 +125,13 @@ const resolvers = {
     bookCount: () => books.length,
     authorCount: () => authors.length,
     allBooks: (root, args) => {
-      if(!args.author & !args.genre) {
+      if (!args.author & !args.genre) {
         // no genre or author provided
         return books
-      }else if(!args.genre) {
+      } else if (!args.genre) {
         // no genre provided
         return books.filter(book => book.author === args.author)
-      }else if(!args.author){
+      } else if (!args.author) {
         //no author provided
         return books.filter(book => book.genres.includes(args.genre))
       }
@@ -139,17 +142,26 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
-      const newBook = {...args, id: uuid()}
-      if(authors.find(author => author.name === args.author)) {
+      const newBook = { ...args, id: uuid() }
+      if (authors.find(author => author.name === args.author)) {
         // author already exists
         books = books.concat(newBook)
-        return newBook  
+        return newBook
       }
       // author does not exist
-      const newAuthor = {name: args.author, born:null, id: uuid()}
+      const newAuthor = { name: args.author, born: null, id: uuid() }
       authors = authors.concat(newAuthor)
       books = books.concat(newBook)
       return newBook
+    },
+    editAuthor: (root, args) => {
+      const tmp = authors.find(author => author.name === args.name)
+      if (!tmp) {
+        return null
+      }
+      const updatedAuthor = {...tmp, born: args.setBornTo}
+      authors = authors.map(author => author.name === args.name ? updatedAuthor : author)
+      return updatedAuthor
     }
   }
 
