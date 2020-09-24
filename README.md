@@ -23,3 +23,8 @@
 - [x] **Part 6**:
   - [x] unicafe-redux
   - [x] redux-anecdotes
+- [x] **Part 7**:
+  - [x] routed-anecdotes
+  - [x] ultimate-hooks
+  - [x] country-hook
+  - [x] bloglist-extended
