@@ -5,16 +5,12 @@ import { ALL_AUTHORS } from '../queries'
 
 const Authors = (props) => {
   const result = useQuery(ALL_AUTHORS)
-  var authors;
   if (!props.show) {
     return null
   }
 
-  if (!result.data){
-    authors = []
-  }else {
-    authors = result.data.allAuthors
-  }
+  const authors = result.data? result.data.allAuthors : []
+
 
   return (
     <div>
