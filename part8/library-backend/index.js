@@ -1,5 +1,23 @@
 const { ApolloServer, gql } = require('apollo-server')
 const { v1: uuid } = require('uuid')
+const mongoose = require('mongoose')
+const Book = require('./Models/Book')
+const Author = require('./Models/Author')
+
+const MONGODB_URI = "mongodb+srv://fullstack:infinitude@cluster0.skbal.mongodb.net/graphql?retryWrites=true&w=majority"
+
+mongoose.connect(MONGODB_URI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  }).then(() => {
+    console.log('connected to mongodb')
+  }).catch(() => {
+    console.log('failed to connect to mongodb')
+  })
+
 
 let authors = [
   {
@@ -26,7 +44,6 @@ let authors = [
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
 ]
-
 
 let books = [
   {
@@ -83,9 +100,10 @@ let books = [
 const typeDefs = gql`
   type Book {
     title: String!
-    author: String!
+    author: Author!
     published: Int!
     genres: [String!]!
+    id: ID!
   }
 
   type Author {
@@ -122,12 +140,12 @@ const resolvers = {
     }
   },
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
+    bookCount: () => Book.collection.countDocuments(),
+    authorCount: () => Author.collection.countDocuments(),
     allBooks: (root, args) => {
       if (!args.author & !args.genre) {
         // no genre or author provided
-        return books
+        return Book.find({})
       } else if (!args.genre) {
         // no genre provided
         return books.filter(book => book.author === args.author)
@@ -138,7 +156,7 @@ const resolvers = {
       // both genre and author provided
       return books.filter(book => book.genres.includes(args.genre) & book.author === args.author)
     },
-    allAuthors: () => authors
+    allAuthors: () => Author.find({})
   },
   Mutation: {
     addBook: (root, args) => {
@@ -159,7 +177,7 @@ const resolvers = {
       if (!tmp) {
         return null
       }
-      const updatedAuthor = {...tmp, born: args.setBornTo}
+      const updatedAuthor = { ...tmp, born: args.setBornTo }
       authors = authors.map(author => author.name === args.name ? updatedAuthor : author)
       return updatedAuthor
     }
