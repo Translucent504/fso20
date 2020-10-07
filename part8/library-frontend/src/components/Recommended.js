@@ -7,7 +7,7 @@ const Recommended = (props) => {
   const [books, setBooks] = useState([])
   const [getBooks, {loading, data}] = useLazyQuery(BOOKS_BY_GENRE)
   const user = useQuery(ME)
-
+    
   useEffect(()=> {
       if (user.data){
           setGenre(user.data.me.favoriteGenre)
