@@ -93,10 +93,10 @@ const resolvers = {
         // no genre or author provided
         return Book.find({}).populate('author')
       } else if (!args.genre) {
-        // no genre provided
+        // author provided but no genre provided 
         return books.filter(book => book.author === args.author)
       } else if (!args.author) {
-        //no author provided
+        // genre provided but no author provided
         const books = await Book.find({ genres: { $in: args.genre } }).populate('author')
         return books
       }
