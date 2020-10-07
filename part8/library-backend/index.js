@@ -91,7 +91,7 @@ const resolvers = {
     allBooks: async (root, args) => {
       if (!args.author & !args.genre) {
         // no genre or author provided
-        return Book.find({})
+        return Book.find({}).populate('author')
       } else if (!args.genre) {
         // no genre provided
         return books.filter(book => book.author === args.author)
