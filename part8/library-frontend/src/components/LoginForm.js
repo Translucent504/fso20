@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
-import { LOGIN } from '../queries'
+import { LOGIN, ME } from '../queries'
 
 const LoginForm = ({ setToken, show, setPage }) => {
     const [username, setUsername] = useState('')
@@ -8,17 +8,22 @@ const LoginForm = ({ setToken, show, setPage }) => {
     const [login, result] = useMutation(LOGIN, {
         onError: (error) => {
             console.log(error)
-        }
+        },
+        update: (store, response) => {
+            localStorage.setItem('library-user-token', response.data.login.value)
+            console.log(response.data.login.value)
+        },
+        refetchQueries: [{query:ME}]
+
     })
 
     useEffect(() => {
         if (result.data) {
             const token = result.data.login.value
             setToken(token)
-            localStorage.setItem('library-user-token', token)
             setPage('books')
         }
-    }, [result.data])
+    }, [result.data]) // eslint-disable-line
 
 
     if (!show) {
@@ -27,7 +32,7 @@ const LoginForm = ({ setToken, show, setPage }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        login({
+        await login({
             variables: {
                 username,
                 password

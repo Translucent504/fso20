@@ -14,6 +14,7 @@ const App = () => {
     setToken(null)
     localStorage.clear()
     await client.resetStore()
+    setPage('books')
   }
   useEffect(() => {
     setToken(localStorage.getItem('library-user-token'))
@@ -50,6 +51,7 @@ const App = () => {
 
       <Recommended
         show={page === 'recommended'}
+        token={token}
       />
 
 

@@ -112,7 +112,7 @@ const resolvers = {
         throw new AuthenticationError('not authorized')
       }
       const author = await Author.findOne({ name: args.author })
-      if (author._id) {
+      if (author !== null) {
         // author already exists
         try {
           const newBook = new Book({ ...args, author: author._id })
@@ -128,7 +128,7 @@ const resolvers = {
         const newAuthor = new Author({ name: args.author, born: null })
         const newBook = new Book({ ...args, author: newAuthor._id })
         await newAuthor.save()
-        return newBook.save()
+        return (await newBook.save()).populate('author').execPopulate()
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args

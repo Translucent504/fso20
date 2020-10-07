@@ -15,8 +15,8 @@ const Books = (props) => {
   if (!props.show) {
     return null
   }
-  const genres = [...books?.reduce((prev, curr) => curr.genres.length? prev.add(...curr.genres): prev, new Set())]
-
+  
+  const genres = [...books?.reduce((prev, curr) => curr.genres.length ? new Set([...curr.genres, ...prev]) : prev, new Set())]
   const byGenre = (book) => {
     if (!genre) {
       return true
@@ -27,7 +27,7 @@ const Books = (props) => {
   return (
     <div>
       <h2>books</h2>
-      <h3>in genre {genre ? genre : "all"}</h3>
+      <p>in genre <b>{genre ? genre : "all"}</b></p>
       <table>
         <tbody>
           <tr>
@@ -50,7 +50,7 @@ const Books = (props) => {
             )}
         </tbody>
       </table>
-      <p>genres {genres.map(g=><button onClick={() => setGenre(genre => genre === g ? null : g)} key={g}>{g}</button>)}</p>
+      <p>genres {genres.map(g => <button onClick={() => setGenre(genre => genre === g ? null : g)} key={g}>{g}</button>)}</p>
     </div>
   )
 }
