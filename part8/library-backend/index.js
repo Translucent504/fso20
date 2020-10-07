@@ -97,7 +97,7 @@ const resolvers = {
         return books.filter(book => book.author === args.author)
       } else if (!args.author) {
         //no author provided
-        const books = await Book.find({ genres: { $in: args.genre } })
+        const books = await Book.find({ genres: { $in: args.genre } }).populate('author')
         return books
       }
       // both genre and author provided
@@ -111,8 +111,8 @@ const resolvers = {
       if (!context.currentUser) {
         throw new AuthenticationError('not authorized')
       }
-      const author = await Author.exists({ name: args.author })
-      if (author) {
+      const author = await Author.findOne({ name: args.author })
+      if (author._id) {
         // author already exists
         try {
           const newBook = new Book({ ...args, author: author._id })
