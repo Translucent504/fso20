@@ -1,4 +1,4 @@
-const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server')
+const { ApolloServer, gql, UserInputError, AuthenticationError, PubSub } = require('apollo-server')
 const { v1: uuid } = require('uuid')
 const mongoose = require('mongoose')
 const Book = require('./Models/Book')
@@ -7,6 +7,7 @@ const User = require('./Models/User')
 const MONGODB_URI = "mongodb+srv://fullstack:infinitude@cluster0.skbal.mongodb.net/graphql?retryWrites=true&w=majority"
 const jwt = require('jsonwebtoken')
 
+const pubsub = new PubSub()
 const JWT_SECRET = 'secretlol'
 
 mongoose.connect(MONGODB_URI,
@@ -75,6 +76,10 @@ const typeDefs = gql`
       username: String!
       password: String!
     ): Token
+
+  type Subscription {
+    bookAdded: Book!
+  }
   }
 `
 
@@ -116,6 +121,7 @@ const resolvers = {
         // author already exists
         try {
           const newBook = new Book({ ...args, author: author._id })
+          pubsub.publish("BOOK_ADDED", {bookAdded: newBook})
           return newBook.save()
         } catch (error) {
           throw new UserInputError(error.message, {
@@ -128,6 +134,7 @@ const resolvers = {
         const newAuthor = new Author({ name: args.author, born: null })
         const newBook = new Book({ ...args, author: newAuthor._id })
         await newAuthor.save()
+        pubsub.publish("BOOK_ADDED", {bookAdded: newBook})
         return (await newBook.save()).populate('author').execPopulate()
       } catch (error) {
         throw new UserInputError(error.message, {
@@ -174,6 +181,11 @@ const resolvers = {
       }
       const token = jwt.sign(userForToken, JWT_SECRET)
       return { value: token }
+    }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe : () => pubsub.asyncIterator(["BOOK_ADDED"])
     }
   }
 }
