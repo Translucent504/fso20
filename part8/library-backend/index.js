@@ -85,9 +85,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Author: {
-    bookCount: async (root) => {
-      const author = await Author.findOne({ name: root.name })
-      return Book.collection.countDocuments({ author: author._id })
+    bookCount: async (root) => { 
+      return root.books.length
+      // fallback to work with the old authors that are already added to the collection
+      // return Book.collection.countDocuments({ author: author._id })
     }
   },
   Query: {
@@ -108,7 +109,7 @@ const resolvers = {
       // both genre and author provided
       return books.filter(book => book.genres.includes(args.genre) & book.author === args.author)
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: () => Author.find({}).populate('books'),
     me: (root, args, context) => context.currentUser
   },
   Mutation: {
@@ -122,6 +123,8 @@ const resolvers = {
         try {
           const newBook = new Book({ ...args, author: author._id })
           await newBook.populate('author').execPopulate()
+          author.books = author.books.concat(newBook._id)
+          await author.save()
           pubsub.publish("BOOK_ADDED", {bookAdded: newBook})
           return newBook.save()
         } catch (error) {
@@ -134,6 +137,7 @@ const resolvers = {
       try {
         const newAuthor = new Author({ name: args.author, born: null })
         const newBook = new Book({ ...args, author: newAuthor._id })
+        newAuthor.books = newAuthor.books.concat(newBook._id)
         await newAuthor.save()
         (await newBook.save()).populate('author').execPopulate()
         pubsub.publish("BOOK_ADDED", {bookAdded: newBook})
