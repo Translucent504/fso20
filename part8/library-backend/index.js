@@ -76,10 +76,10 @@ const typeDefs = gql`
       username: String!
       password: String!
     ): Token
+  }
 
   type Subscription {
     bookAdded: Book!
-  }
   }
 `
 
@@ -121,6 +121,7 @@ const resolvers = {
         // author already exists
         try {
           const newBook = new Book({ ...args, author: author._id })
+          await newBook.populate('author').execPopulate()
           pubsub.publish("BOOK_ADDED", {bookAdded: newBook})
           return newBook.save()
         } catch (error) {
@@ -134,8 +135,9 @@ const resolvers = {
         const newAuthor = new Author({ name: args.author, born: null })
         const newBook = new Book({ ...args, author: newAuthor._id })
         await newAuthor.save()
+        (await newBook.save()).populate('author').execPopulate()
         pubsub.publish("BOOK_ADDED", {bookAdded: newBook})
-        return (await newBook.save()).populate('author').execPopulate()
+        return newBook
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args
@@ -205,6 +207,7 @@ const server = new ApolloServer({
   }
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions at ${subscriptionsUrl}`)
 })

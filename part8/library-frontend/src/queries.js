@@ -75,3 +75,13 @@ query booksByGenre($genre:String!){
   }
 }
 `
+
+export const BOOK_ADDED = gql`
+subscription {
+  bookAdded {
+    title
+    published
+    genres
+    id
+  }
+}`
