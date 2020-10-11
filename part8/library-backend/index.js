@@ -109,7 +109,7 @@ const resolvers = {
       // both genre and author provided
       return books.filter(book => book.genres.includes(args.genre) & book.author === args.author)
     },
-    allAuthors: () => Author.find({}).populate('books'),
+    allAuthors: () => Author.find({}),
     me: (root, args, context) => context.currentUser
   },
   Mutation: {
