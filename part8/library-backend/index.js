@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const Book = require('./Models/Book')
 const Author = require('./Models/Author')
 const User = require('./Models/User')
-const MONGODB_URI = "mongodb+srv://fullstack:infinitude@cluster0.skbal.mongodb.net/graphql?retryWrites=true&w=majority"
+const MONGODB_URI = OOPSSSSSS
 const jwt = require('jsonwebtoken')
 
 const pubsub = new PubSub()
