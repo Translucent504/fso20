@@ -1,30 +1,37 @@
 # Full Stack Open Exercise Submission Repo
-- [x] **Part 0**:
+- [x] **Part 0 Fundamentals of Web apps**:
   - [x] 0.1: HTML
   - [x] 0.2: CSS
   - [x] 0.3: HTML forms
   - [x] 0.4: new note
   - [x] 0.5: Single page app
   - [x] 0.6: New note
-- [x] **Part 1**:
+- [x] **Part 1 Introduction to React**:
   - [x] courseinfo
   - [x] unicafe
   - [x] anecdotes
-- [x] **Part 2**:
+- [x] **Part 2 Communicating with server**:
   - [x] phonebook
   - [x] countries
   - [x] coursecontents
-- [x] **Part 3**:
+- [x] **Part 3 Programming a server with NodeJS and Express**:
   - [x] phonebook-backend
-- [x] **Part 4**:
+- [x] **Part 4 Testing Express servers, user administration**:
   - [x] bloglist
-- [x] **Part 5**:
+- [x] **Part 5 Testing React apps**:
   - [x] bloglist-frontend
-- [x] **Part 6**:
+- [x] **Part 6 State management with Redux**:
   - [x] unicafe-redux
   - [x] redux-anecdotes
-- [x] **Part 7**:
+- [x] **Part 7 React router, custom hooks, styling app with CSS and webpack**:
   - [x] routed-anecdotes
   - [x] ultimate-hooks
   - [x] country-hook
   - [x] bloglist-extended
+- [x] **Part 8 GraphQL**:
+  - [x] library-backend
+  - [x] library-frontend
+- [ ] **Part 9 Typescript**:
+  - [ ] ...
+- [ ] **Part 10 React Native**:
+  - [ ] ...
